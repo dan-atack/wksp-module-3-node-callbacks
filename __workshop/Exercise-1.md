@@ -1,8 +1,8 @@
 # Questions
 
-**With a partner**, answer these questions as completely as possible. Feel free to look at past lecture notes, the web, anything. 
+**With a partner**, answer these questions as completely as possible. Feel free to look at past lecture notes, the web, anything.
 
-Take the time to explain it to each other. 
+Take the time to explain it to each other.
 
 The power of this exercise is in the act of _formulating_ and _explaining_ the concepts to someone else (your teammate).
 
@@ -12,10 +12,28 @@ Run the app. Write out the steps, the _pseudo code_, required to create this app
 
 Only move on to the next question when you have enough detail that you would be able to start coding it yourself.
 
-```
-// Answer here
+SERVER.JS
+importing dependencies
+initialize express and middleware
+declare endpoints
+and 404
+run the server
 
-```
+HANDLER.JS
+passing data and functions to the page
+
+PAGES
+HP.EJS
+404.EJS
+
+PARTIALS
+HEADER.EJS
+FOOTER.EJS
+TODOINPUT.EJS (form is created)
+
+PUBLIC
+STATIC HTML
+CSS
 
 ## Two - `server.js`
 
@@ -26,16 +44,21 @@ We have a new module in there, `body-parser` that is required on line `4`. What 
 _The NPM site might be a good place to start. Feel free to provide links as relevant._
 
 ```
-// Answer here
+The  body-parser  allows express to read the body and then parse that into a Json object that can be read and interpreted. It is a middleware that facilitates the passing of data by parsing the json.
+
+it is initialized at the top
+then launched?? used at the bottom
 
 ```
 
 ## Three - `server.js`
 
-Look at lines `23` and `24`. Explain the methods used. How are they different? What are the usecases for each?
+Look at lines `26` and `27`. Explain the methods used. How are they different? What are the usecases for each?
 
-```
-// Answer here
+The get retrieves or renders the homepage
+.get("/", handleHomePage)
+The post retrieves or renders the form that can be edited and submitted
+.post("/form-data", handleFormData)
 
 ```
 
@@ -43,8 +66,10 @@ Look at lines `23` and `24`. Explain the methods used. How are they different? W
 
 Line `6`. That's new. What do you think it's for?
 
-```
-// Answer here
+this below determines the order of handling the pages, first we will get homepage, then allow editing of form and if not the first two we get the 404 error
+const { handleHomePage, handleFormData, handle404 } = require("./handlers");
+
+
 
 ```
 
@@ -52,59 +77,80 @@ Line `6`. That's new. What do you think it's for?
 
 Explain line `1`. Where, why and how is `items` being used?
 
-```
-// Answer here
+const items = [];
+We are declaring an empty array so that items filled in will be delivered as an array
 
 ```
 
 ## Six - `handlers.js`
 
 Why is there `redirect` on line `11`;
+we are sent each time to a new updated version of homepage with pushed elements
+    res.redirect('/');
+
+
 
 ```
-// Answer here
-
-``` 
 
 ## Seven - `handlers.js`
 
 The `handle404` function is a more complex than we've seen thus far, what is the extra functionality for?
+if (req.accepts('html')) {
+res.render('pages/fourOhFour', { path: req.originalUrl });
+return;
+}
 
-```
-// Answer here
-
-```
+// respond with json
+if (req.accepts('json')) {
+res.send({ error: 'Not found' });
+return;
+}
+There are two different error pages. The one that accepts html renders a 404 page. The other accepts json and sends a not found message
 
 ## Eight - `ejs`
 
 Take a look at `homepage.ejs` and `todoInput.ejs`. What is happening in there? Explain line-by-line...
+`homepage.ejs`
+<%- include('../partials/header') %>
+//above header partials is retrieved
+
+<div class='input-container'>
+    <%- include('../partials/todoInput') %>
+    // todoInput file is retrieved
+</div>
+<div class='content'>
+//the div will be styled by the content class
+    <ul class='todo-list'>
+    // an unordered list is formed
+        <% items.forEach(item => { %>
+            <li class='todo-list--item'><%= item %></li> 
+            it making list appear as an array we are declaring these items in the array
+        <% }); %>
+    </ul>
+</div>
+<%- include('../partials/footer') %>
+//above footer partials is retrieved
+
+in todoInput.ejs
+is where the form is created with a POST action that allows users to add/ edit info
+and input with submit button
+
+<form method='POST' action='/form-data'>
+    <label for='item'>TODO Item</label>
+    <input type='text' name='item' placeholder='Item Description' />
+    <button type='submit'>Submit</button>
+</form>
 
 ```
-// Answer here
+
+
 
 ```
 
-## Nine - `styles.scss`
-
-What are lines `2` to `7` for this file? Where are these values being used? Take a look at `_homepage.scss` as well? What do you notice?
-
 ```
-// Answer here
 
 ```
 
-## Ten - `_homepage.scss`
-
-Line `16`. See if by searching the Sass documentation, you can determine what _exactly_ is going on here. That `#{}` notation very specific to this use-case. Why?
-
-```
-// Answer here
-
 ```
 
-
-
-
-
-
-
+```
