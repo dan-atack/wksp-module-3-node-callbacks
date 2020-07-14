@@ -85,7 +85,7 @@ We are declaring an empty array so that items filled in will be delivered as an 
 ## Six - `handlers.js`
 
 Why is there `redirect` on line `11`;
-if the above functions are not fulfilled then we are redirected to homepage
+we are sent each time to a new updated version of homepage with pushed elements
     res.redirect('/');
 
 
